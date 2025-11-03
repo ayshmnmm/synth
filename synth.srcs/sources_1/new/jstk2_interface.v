@@ -97,9 +97,15 @@ module jstk2_interface(
                     if(tx_ready)
                     begin
                         case(byte_counter)
-                            8'd0,8'd1,8'd2,8'd3,8'd4:
+                            8'd0,8'd2,8'd4:
                             begin
                                 tx_byte <= 8'b0;
+                                tx_valid <= 1;     // start transfer of byte and wait for rx_valid
+                            end
+                            
+                            8'd1,8'd3:
+                            begin
+                                tx_byte <= 8'b10100111;
                                 tx_valid <= 1;     // start transfer of byte and wait for rx_valid
                             end
                         endcase
@@ -112,7 +118,7 @@ module jstk2_interface(
                 begin
                     if(rx_valid)
                     begin
-                        tx_valid <= 0;
+//                        tx_valid <= 0;
                         case(byte_counter)
                             8'd0:
                             begin

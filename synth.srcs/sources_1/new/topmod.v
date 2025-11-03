@@ -51,7 +51,11 @@ module topmod(
       .clk(clk),              // input wire clk
       .probe_in0(x),  // input wire [9 : 0] probe_in0
       .probe_in1(y),  // input wire [9 : 0] probe_in1
-      .probe_in2(fsb)  // input wire [7 : 0] probe_in2
+      .probe_in2(fsb),  // input wire [7 : 0] probe_in2
+      .probe_in3(jstk_sclk),  
+      .probe_in4(jstk_ss),  
+      .probe_in5(jstk_mosi),  
+      .probe_in6(jstk_miso)  
     );
     
 endmodule

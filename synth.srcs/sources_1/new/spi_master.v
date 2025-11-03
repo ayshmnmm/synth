@@ -139,6 +139,12 @@ module spi_master(
             BYTE_DELAY:
             begin
                 rx_valid <= 0;
+                if(tx_valid == 0)
+                begin
+                    ss <= 1;
+                    state <= POST_DELAY;
+                    multi_purpose_counter <= 0;
+                end
                 if(multi_purpose_counter == 16'd999)
                 begin
                     if(tx_valid) //more bytes to be sent
@@ -166,7 +172,7 @@ module spi_master(
             // multi_purpose_counter purpose - for delay (2500 clock cycles - 25 us)
             POST_DELAY:
             begin
-                if(multi_purpose_counter == 16'd2499)
+                if(multi_purpose_counter == 16'd2500)
                 begin
                     state <= IDLE;
                     multi_purpose_counter <= 0;

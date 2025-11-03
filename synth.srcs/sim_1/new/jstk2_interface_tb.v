@@ -87,7 +87,7 @@ module jstk2_interface_tb;
         // Send a single-cycle 'en' pulse to start the interface
         en <= 1;
         #10; // 1 clock cycle
-        en <= 0;
+//        en <= 0;
 
         $display("Time: %0t ns -> 'en' pulse sent. Waiting for 'data_valid'...", $time);
 
