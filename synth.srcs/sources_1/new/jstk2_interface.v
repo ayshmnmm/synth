@@ -23,7 +23,6 @@
 module jstk2_interface(
     input clk,
     input rst,
-    input en,
     
     output reg [9:0] smpX_latest,
     output reg [9:0] smpY_latest,
@@ -36,6 +35,7 @@ module jstk2_interface(
     input  pmod_miso
     );
     
+    reg en;
     reg [9:0] smpY, smpX;
     reg [7:0] fsButtons;
     reg [7:0] tx_byte;
@@ -65,6 +65,10 @@ module jstk2_interface(
     reg [1:0] state;
     reg [7:0] byte_counter;  // current byte sequence num being transmitted
     
+    initial begin
+    en = 0;
+    end
+    
     always @(posedge clk or posedge rst)
     begin
         if(rst)
@@ -79,6 +83,7 @@ module jstk2_interface(
             byte_counter <= 8'b0;
             done <= 0;
             state <= IDLE;
+            en <= 1;
         end
         else
         begin
@@ -97,15 +102,15 @@ module jstk2_interface(
                     if(tx_ready)
                     begin
                         case(byte_counter)
-                            8'd0,8'd2,8'd4:
+                            8'd0:
                             begin
                                 tx_byte <= 8'b0;
                                 tx_valid <= 1;     // start transfer of byte and wait for rx_valid
                             end
                             
-                            8'd1,8'd3:
+                            8'd1,8'd3,8'd2,8'd4,8'd5:
                             begin
-                                tx_byte <= 8'b10100111;
+                                tx_byte <= 8'b0;
                                 tx_valid <= 1;     // start transfer of byte and wait for rx_valid
                             end
                         endcase

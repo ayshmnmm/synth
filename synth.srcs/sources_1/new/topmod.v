@@ -37,7 +37,6 @@ module topmod(
     jstk2_interface jstk (
         .clk(clk),
         .rst(rst),
-        .en(1'b1),
         .smpX_latest(x),
         .smpY_latest(y),
         .fsButtons_latest(fsb),
@@ -58,4 +57,13 @@ module topmod(
       .probe_in6(jstk_miso)  
     );
     
+    ila_0 time_detective_jstk (
+	.clk(clk), // input wire clk
+
+
+	.probe0(jstk_miso), // input wire [0:0]  probe0  
+	.probe1(jstk_mosi), // input wire [0:0]  probe1 
+	.probe2(jstk_sclk), // input wire [0:0]  probe2 
+	.probe3(jstk_ss) // input wire [0:0]  probe3
+);
 endmodule
